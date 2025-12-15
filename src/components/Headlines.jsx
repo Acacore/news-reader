@@ -1,5 +1,3 @@
-// src/components/Headlines.jsx
-
 export default function Headlines({ articles = [], loading = false, error = null }) {
   if (loading) {
     return (
@@ -16,7 +14,7 @@ export default function Headlines({ articles = [], loading = false, error = null
         <p className="text-gray-600 max-w-md mx-auto">
           {error}
           <br />
-          Please check your internet connection or API token and try again.
+          Please check your internet connection or try again later.
         </p>
       </div>
     );
@@ -34,13 +32,14 @@ export default function Headlines({ articles = [], loading = false, error = null
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       {articles.map((article) => (
         <article
-          key={article.url} // Using url as a unique key (more reliable than index)
+          key={article.uuid || article.url || article.title} // Handles both APIs (uuid from The News API, url from GNews)
           className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
         >
-          {article.image && (
+          {/* Image – works with both image_url (The News API) and image (GNews) */}
+          {(article.image || article.image_url) && (
             <a href={article.url} target="_blank" rel="noopener noreferrer">
               <img
-                src={article.image}
+                src={article.image || article.image_url}
                 alt={article.title}
                 className="w-full h-48 object-cover"
                 loading="lazy"
@@ -64,9 +63,14 @@ export default function Headlines({ articles = [], loading = false, error = null
             )}
 
             <footer className="mt-auto text-xs text-gray-500 flex justify-between items-center">
-              <span className="font-medium">{article.source.name}</span>
+              {/* Source – handles object (GNews) or string (The News API) */}
+              <span className="font-medium">
+                {typeof article.source === 'object' ? article.source.name : article.source}
+              </span>
+
+              {/* Published date – handles published_at or publishedAt */}
               <time>
-                {new Date(article.publishedAt).toLocaleDateString(undefined, {
+                {new Date(article.published_at || article.publishedAt).toLocaleDateString(undefined, {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric',
