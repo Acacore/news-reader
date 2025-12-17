@@ -1,109 +1,108 @@
-// src/API.jsx
+// src/API.jsx - NewsAPI.org
+const API_URL = 'https://newsapi.org/v2/top-headlines';
+const TOKEN = import.meta.env.VITE_NEWS_API_KEY;
 
-const THENEWS_URL = 'https://api.thenewsapi.com/v1/news/headlines';
-const GNEWS_URL = 'https://gnews.io/api/v4/top-headlines';
+console.log('NewsAPI.org token loaded:', TOKEN ? 'Yes (hidden)' : 'No – missing!');
 
-const THENEWS_TOKEN = import.meta.env.VITE_THENEWSAPI_TOKEN;
-const GNEWS_TOKEN = import.meta.env.VITE_GNEWS_TOKEN;
-
-console.log('API tokens loaded:', {
-  thenewsapi: THENEWS_TOKEN ? 'Yes' : 'No',
-  gnews: GNEWS_TOKEN ? 'Yes' : 'No'
-});
-
-const CACHE_KEY = 'news_headlines_cache';
+const CACHE_KEY_PREFIX = 'newsapi_cache_';
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
-// In fetchFromTheNewsAPI()
+// Supported categories
+export const categories = [
+  'business',
+  'entertainment',
+  'general',
+  'health',
+  'science',
+  'sports',
+  'technology'
+];
 
-// In fetchFromGNews() – optional, but add category for consistency
+/**
+ * Generic fetch function for any category
+ * @param {string} category - category name, '' for general
+ * @param {number} pageSize - number of articles to fetch
+ */
+export async function fetchNews({ category = '', pageSize = 20 } = {}) {
+  if (!TOKEN || TOKEN.trim() === '') {
+    throw new Error('NewsAPI.org token missing. Check .env and VITE_NEWS_API_KEY');
+  }
 
+  const cacheKey = `${CACHE_KEY_PREFIX}${category || 'general'}_${pageSize}`;
+  const cached = localStorage.getItem(cacheKey);
 
-async function fetchFromTheNewsAPI() {
-  const url = `${THENEWS_URL}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
-  //const url = `${THENEWS_URL}?locale=us&language=en&categories=general&api_token=${THENEWS_TOKEN}&limit=9`;
-  //const url = `${THENEWS_URL.replace('headlines', 'top')}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('The News API failed');
-  const json = await res.json();
-  console.log('The News API full response:', json);
-  console.log(json.data)
-  return json.data || [];
-}
-
-async function fetchFromGNews() {
-  const url = `${GNEWS_URL}?category=general&country=us&lang=en&max=9&apikey=${GNEWS_TOKEN}`;
-  //const url = `${GNEWS_URL}?country=us&lang=en&category=general&apikey=${GNEWS_TOKEN}`;
-  console.log('Fetching from GNews:', url.replace(GNEWS_TOKEN, '***')); // Safe debug log
-
-  const res = await fetch(url);
-  // if (!res.ok) {
-  //   console.error('GNews error status:', res.status);
-  //   throw new Error(`GNews failed: ${res.status}`);
-  // }
-  if (!res.ok) {
-  const errorText = await res.text();
-  console.error('API Error Response:', errorText);
-  throw new Error(`API failed: ${res.status} – ${errorText}`);
-}
-  const json = await res.json();
-  console.log('GNews raw response:', json); // Optional: remove later
-  return json.articles || [];
-}
-
-export async function fetchTopHeadlines() {
-  // Check cache first
-  const cached = localStorage.getItem(CACHE_KEY);
+  // Check cache
   if (cached) {
     try {
       const { data, timestamp } = JSON.parse(cached);
       if (Date.now() - timestamp < CACHE_DURATION) {
-        console.log('Serving from cache');
-        console.log(data)
+        console.log(`🟢 Serving ${category || 'general'} news from cache`);
         return data;
       }
     } catch (e) {
-      console.log(e)
+      console.warn('Cache parse failed:', e);
     }
   }
 
-  // Try The News API first
-  if (THENEWS_TOKEN && THENEWS_TOKEN.trim() !== '') {
-    try {
-      console.log('Trying The News API...');
-      const articles = await fetchFromTheNewsAPI();
-      if (articles.length > 0) {
-        cacheAndReturn(articles, 'The News API');
-        return articles;
-      }
-    } catch (e) {
-      console.warn('The News API failed, falling back to GNews');
-    }
+  // Build API URL
+  const url = new URL(API_URL);
+  url.searchParams.set('apiKey', TOKEN);
+  url.searchParams.set('country', 'us');
+  url.searchParams.set('pageSize', pageSize);
+  if (category) url.searchParams.set('category', category);
+
+  console.log(`🌐 Fetching fresh ${category || 'general'} news from NewsAPI.org`);
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`NewsAPI request failed: ${response.status} – ${errorText}`);
   }
 
-  // Fallback to GNews
-  if (GNEWS_TOKEN && GNEWS_TOKEN.trim() !== '') {
-    try {
-      console.log('Trying GNews as fallback...');
-      const articles = await fetchFromGNews();
-      if (articles.length > 0) {
-        cacheAndReturn(articles, 'GNews');
-        return articles;
-      }
-    } catch (e) {
-      console.warn('GNews also failed');
-    }
-  }
+  const json = await response.json();
+  const articles = json.articles || [];
 
-  throw new Error('Both news APIs unavailable. Check tokens or connection.');
-}
+  // Map articles to include proper fields for cards
+  const mappedArticles = articles
+  .filter(article => article.urlToImage) // keep only articles with images
+  .map(article => ({
+    article_id: article.url,
+    title: article.title,
+    description: article.description,
+    urlToImage: article.urlToImage,
+    source_name: article.source.name,
+    publishedAt: article.publishedAt,
+    url: article.url
+  }));
 
-function cacheAndReturn(articles, source) {
-  console.log(`Loaded ${articles.length} headlines from ${source}`);
+
+  // Cache results
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
-      data: articles,
-      timestamp: Date.now(),
-    }));
-  } catch (e) {}
+    localStorage.setItem(
+      cacheKey,
+      JSON.stringify({ data: mappedArticles, timestamp: Date.now() })
+    );
+    console.log(`💾 Cached ${mappedArticles.length} articles for ${category || 'general'}`);
+  } catch (e) {
+    console.warn('Failed to cache:', e);
+  }
+
+  return mappedArticles;
 }
+
+/**
+ * Fetch hot news (top 5 general news)
+ */
+export function fetchHotNews() {
+  return fetchNews({ category: 'general', pageSize: 5 });
+}
+
+/**
+ * Fetch headlines for a category (includes images for cards)
+ */
+export function fetchHeadlines(category = '') {
+  return fetchNews({ category, pageSize: 20 });
+}
+
+

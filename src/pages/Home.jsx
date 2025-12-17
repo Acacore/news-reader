@@ -1,143 +1,180 @@
-// src/pages/Home.jsx
-import { useState, useEffect } from 'react'
-import { fetchTopHeadlines } from '../API'
+// src/pages/HomePage.jsx
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Headlines from '../components/Headlines';
+import { fetchHotNews, fetchHeadlines, categories } from '../API';
 
-export default function Home() {
-  const [articles, setArticles] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 
-  // Load news on mount
+
+// Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+export default function HomePage() {
+  const navigate = useNavigate();
+
+  const [hotNews, setHotNews] = useState([]);
+  const [hotLoading, setHotLoading] = useState(true);
+  const [hotError, setHotError] = useState(null);
+
+  const [activeCategory, setActiveCategory] = useState('general');
+  const [categoryHeadlines, setCategoryHeadlines] = useState([]);
+  const [headlinesLoading, setHeadlinesLoading] = useState(true);
+  const [headlinesError, setHeadlinesError] = useState(null);
+
+  // Fetch Hot News
   useEffect(() => {
-    loadNews()
-  }, [])
+    setHotLoading(true);
+    fetchHotNews()
+      .then(data => setHotNews(data))
+      .catch(err => setHotError(err.message))
+      .finally(() => setHotLoading(false));
+  }, []);
 
-  const loadNews = () => {
-    setLoading(true)
-    setError(null)
+  // Fetch Headlines for active category
+  useEffect(() => {
+    setHeadlinesLoading(true);
+    fetchHeadlines(activeCategory)
+      .then(data => setCategoryHeadlines(data))
+      .catch(err => setHeadlinesError(err.message))
+      .finally(() => setHeadlinesLoading(false));
+  }, [activeCategory]);
 
-    fetchTopHeadlines()
-      .then((data) => {
-        setArticles(data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err.message || 'Failed to load news. Please try again.')
-        setLoading(false)
-      })
-  }
+  // Refresh Functions
+  const refreshHotNews = () => {
+    localStorage.removeItem('newsapi_cache_general_5');
+    setHotLoading(true);
+    fetchHotNews()
+      .then(data => setHotNews(data))
+      .catch(err => setHotError(err.message))
+      .finally(() => setHotLoading(false));
+  };
 
-  const handleRefresh = () => {
-    localStorage.removeItem('news_headlines_cache') // Clear cache
-    loadNews()
-  }
+  const refreshHeadlines = () => {
+    localStorage.removeItem(`newsapi_cache_${activeCategory}_20`);
+    setHeadlinesLoading(true);
+    fetchHeadlines(activeCategory)
+      .then(data => setCategoryHeadlines(data))
+      .catch(err => setHeadlinesError(err.message))
+      .finally(() => setHeadlinesLoading(false));
+  };
 
-  // Loading State
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen -mt-32">
-        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-indigo-600"></div>
-        <p className="mt-8 text-2xl text-gray-600 font-medium">Loading latest news...</p>
-      </div>
-    )
-  }
-
-  // Error State
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen -mt-32 text-center px-4">
-        <p className="text-3xl font-bold text-red-600 mb-6">Oops! Something went wrong</p>
-        <p className="text-xl text-gray-700 mb-8 max-w-md">{error}</p>
-        <button
-          onClick={handleRefresh}
-          className="px-10 py-4 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-xl shadow-lg transition transform hover:scale-105"
-        >
-          Try Again
-        </button>
-      </div>
-    )
-  }
-
-  // Success State - News Grid
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Refresh Button */}
-      <div className="text-center mb-12">
-        <button
-          onClick={handleRefresh}
-          disabled={loading}
-          className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:opacity-60 text-white font-bold text-lg rounded-xl shadow-2xl transition transform hover:scale-105"
-        >
-          {loading ? 'Refreshing...' : 'Refresh News'}
-        </button>
-      </div>
+    <div className="container mx-auto px-4 py-10 space-y-16">
 
-      {/* Articles Grid */}
-      {articles.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-2xl text-gray-600">No articles available at the moment.</p>
+      {/* Hot News Carousel */}
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Breaking News</h1>
+          <button
+            onClick={refreshHotNews}
+            className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105"
+          >
+            Refresh
+          </button>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {articles.map((article) => (
-            <article
-              key={article.uuid || article.url || article.title}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-3 transition-all duration-300 flex flex-col"
+
+        {hotLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <p className="text-xl text-gray-600">Loading hot news...</p>
+          </div>
+        ) : hotError ? (
+          <div className="text-center py-20 text-red-600">{hotError}</div>
+        ) : hotNews.length === 0 ? (
+          <div className="text-center py-20 text-gray-600">No hot news available.</div>
+        ) : (
+  <Swiper
+        modules={[Autoplay, Navigation, Pagination]}
+        autoplay={{ delay: 6000, disableOnInteraction: false }}
+        navigation
+        pagination={{ clickable: true }}
+        loop
+        spaceBetween={30}
+        slidesPerView={1}
+      >
+        {hotNews.map((article, index) => (
+          <SwiperSlide key={index}>
+            <div
+              className="relative w-full h-80 md:h-96 rounded-xl overflow-hidden shadow-lg cursor-pointer group"
+              onClick={() => navigate('/article', { state: { article } })}
             >
-              {/* Image - supports both GNews (urlToImage) and TheNewsAPI (image) */}
-              {(article.urlToImage || article.image) && (
-                <div className="h-56 overflow-hidden bg-gray-100">
-                  <img
-                    src={article.urlToImage || article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => { e.target.style.display = 'none' }} // Hide broken images gracefully
-                  />
+              {/* Image */}
+              {article.urlToImage ? (
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">No Image</span>
                 </div>
               )}
 
-              {/* Content */}
-              <div className="p-7 flex flex-col flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 line-clamp-3">
-                  {article.title}
-                </h2>
+              {/* Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
+                {/* Trending Badge */}
+                <span className="inline-block bg-red-600 px-3 py-1 rounded-full text-xs font-semibold uppercase mb-2 animate-pulse">
+                  Trending
+                </span>
 
-                <p className="text-gray-600 mb-6 line-clamp-4 flex-1">
-                  {article.description || article.snippet || 'No preview available.'}
-                </p>
-
-                {/* Meta Info */}
-                <div className="flex justify-between items-center text-sm text-gray-500 mb-6">
-                  <span className="font-semibold">
-                    {typeof article.source === 'object' ? article.source.name : article.source || 'Unknown Source'}
-                  </span>
-                  <span>
-                    {new Date(article.published_at || article.publishedAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-
-                {/* Read More Link */}
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto inline-flex items-center text-indigo-600 hover:text-indigo-800 font-bold text-lg transition"
-                >
-                  Read full article
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
+                <h2 className="text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
+                {article.description && (
+                  <p className="text-sm md:text-base mt-2 line-clamp-3">{article.description}</p>
+                )}
               </div>
-            </article>
-          ))}
+            </div>
+          </SwiperSlide>
+      ))}
+</Swiper>
+
+        )}
+      </section>
+
+{/* Headlines Section */}
+<section>
+  <div className="flex justify-between items-center mb-4">
+    <h2 className="text-2xl font-bold">Headlines</h2>
+    <button
+      onClick={refreshHeadlines}
+      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow transition transform hover:scale-105"
+    >
+      Refresh
+    </button>
+  </div>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {categoryHeadlines.map((article, index) => (
+      <div
+        key={index}
+        className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-transform duration-300 cursor-pointer"
+        onClick={() => navigate('/article', { state: { article } })}
+      >
+        {article.urlToImage ? (
+          <img src={article.urlToImage} alt={article.title} className="w-full h-40 object-cover"/>
+        ) : (
+          <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-500 text-sm">No Image</span>
+          </div>
+        )}
+        <div className="p-4">
+          <h3 className="font-semibold text-gray-900 line-clamp-2">{article.title}</h3>
+          <div className="text-xs text-gray-500 mt-2 flex justify-between">
+            <span>{article.source_name || 'Unknown'}</span>
+            <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+          </div>
         </div>
-      )}
+      </div>
+    ))}
+  </div>
+</section>
+
     </div>
-  )
+  );
 }
