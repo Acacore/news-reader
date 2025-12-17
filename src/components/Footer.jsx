@@ -1,4 +1,7 @@
-// src/components/Footer.jsx
+
+import { Link } from 'react-router-dom';  // ← Add this import at the top of Footer.jsx
+
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white mt-20">
@@ -18,15 +21,33 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-2xl font-extrabold mb-5 tracking-wide">Quick Links</h3>  {/* Increased from text-xl to text-2xl */}
-            <ul className="space-y-8">
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">About Us</a></li>  {/* Larger links */}
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Contact</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Terms of Service</a></li>
-            </ul>
-          </div>
+          
+
+<div>
+  <h3 className="text-2xl font-extrabold mb-5 tracking-wide">Quick Links</h3>
+  <ul className="space-y-8">  {/* Reduced from space-y-8 to space-y-4 for better spacing */}
+    <li>
+      <Link to="/about" className="text-gray-300 hover:text-white transition text-base">
+        About Us
+      </Link>
+    </li>
+    <li>
+      <Link to="/contact" className="text-gray-300 hover:text-white transition text-base">
+        Contact
+      </Link>
+    </li>
+    <li>
+      <Link to="/privacy" className="text-gray-300 hover:text-white transition text-base">
+        Privacy Policy
+      </Link>
+    </li>
+    <li>
+      <Link to="/terms" className="text-gray-300 hover:text-white transition text-base">
+        Terms of Service
+      </Link>
+    </li>
+  </ul>
+</div>
 
           {/* Categories */}
           <div>
