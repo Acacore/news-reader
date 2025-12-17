@@ -36,11 +36,11 @@ export default function Footer() {
         Contact
       </Link>
     </li>
-    <li>
+    {/* <li>
       <Link to="/privacy" className="text-gray-300 hover:text-white transition text-base">
         Privacy Policy
       </Link>
-    </li>
+    </li> */}
     <li>
       <Link to="/terms" className="text-gray-300 hover:text-white transition text-base">
         Terms of Service
