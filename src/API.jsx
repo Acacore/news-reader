@@ -20,19 +20,20 @@ const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 
 async function fetchFromTheNewsAPI() {
-  // const url = `${THENEWS_URL}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
-  // const url = `${THENEWS_URL}?locale=us&language=en&categories=general&api_token=${THENEWS_TOKEN}&limit=50`;
-  const url = `${THENEWS_URL.replace('headlines', 'top')}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
+  const url = `${THENEWS_URL}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
+  //const url = `${THENEWS_URL}?locale=us&language=en&categories=general&api_token=${THENEWS_TOKEN}&limit=9`;
+  //const url = `${THENEWS_URL.replace('headlines', 'top')}?locale=us&language=en&api_token=${THENEWS_TOKEN}&limit=50`;
   const res = await fetch(url);
   if (!res.ok) throw new Error('The News API failed');
   const json = await res.json();
   console.log('The News API full response:', json);
+  console.log(json.data)
   return json.data || [];
 }
 
 async function fetchFromGNews() {
-  // const url = `${GNEWS_URL}?category=general&country=us&lang=en&max=10&apikey=${GNEWS_TOKEN}`;
-  const url = `${GNEWS_URL}?country=us&lang=en&category=general&apikey=${GNEWS_TOKEN}`;
+  const url = `${GNEWS_URL}?category=general&country=us&lang=en&max=9&apikey=${GNEWS_TOKEN}`;
+  //const url = `${GNEWS_URL}?country=us&lang=en&category=general&apikey=${GNEWS_TOKEN}`;
   console.log('Fetching from GNews:', url.replace(GNEWS_TOKEN, '***')); // Safe debug log
 
   const res = await fetch(url);
@@ -58,9 +59,12 @@ export async function fetchTopHeadlines() {
       const { data, timestamp } = JSON.parse(cached);
       if (Date.now() - timestamp < CACHE_DURATION) {
         console.log('Serving from cache');
+        console.log(data)
         return data;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   // Try The News API first
