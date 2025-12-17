@@ -1,6 +1,6 @@
 // src/API.jsx - NewsAPI.org
 const API_URL = 'https://newsapi.org/v2/top-headlines';
-const TOKEN = import.meta.env.VITE_NEWS_API_KEY;
+const TOKEN = import.meta.env.VITE_NEWS_API_TOKEN;
 
 console.log('NewsAPI.org token loaded:', TOKEN ? 'Yes (hidden)' : 'No – missing!');
 
