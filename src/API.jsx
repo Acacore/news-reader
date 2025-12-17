@@ -1,8 +1,4 @@
-// src/API.jsx - NewsAPI.org
-const API_URL = 'https://newsapi.org/v2/top-headlines';
-const TOKEN = import.meta.env.VITE_NEWS_API_TOKEN;
-
-console.log('NewsAPI.org token loaded:', TOKEN ? 'Yes (hidden)' : 'No – missing!');
+// src/API.jsx - Client-side API wrapper calling Vercel serverless function
 
 const CACHE_KEY_PREFIX = 'newsapi_cache_';
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
@@ -19,19 +15,15 @@ export const categories = [
 ];
 
 /**
- * Generic fetch function for any category
+ * Generic fetch function for any category from serverless endpoint
  * @param {string} category - category name, '' for general
  * @param {number} pageSize - number of articles to fetch
  */
 export async function fetchNews({ category = '', pageSize = 20 } = {}) {
-  if (!TOKEN || TOKEN.trim() === '') {
-    throw new Error('NewsAPI.org token missing. Check .env and VITE_NEWS_API_KEY');
-  }
-
   const cacheKey = `${CACHE_KEY_PREFIX}${category || 'general'}_${pageSize}`;
   const cached = localStorage.getItem(cacheKey);
 
-  // Check cache
+  // Return cached data if available
   if (cached) {
     try {
       const { data, timestamp } = JSON.parse(cached);
@@ -44,38 +36,34 @@ export async function fetchNews({ category = '', pageSize = 20 } = {}) {
     }
   }
 
-  // Build API URL
-  const url = new URL(API_URL);
-  url.searchParams.set('apiKey', TOKEN);
-  url.searchParams.set('country', 'us');
-  url.searchParams.set('pageSize', pageSize);
+  // Build URL for serverless endpoint
+  const url = new URL('/api/news', window.location.origin);
   if (category) url.searchParams.set('category', category);
+  url.searchParams.set('pageSize', pageSize);
 
-  console.log(`🌐 Fetching fresh ${category || 'general'} news from NewsAPI.org`);
+  console.log(`🌐 Fetching fresh ${category || 'general'} news from serverless function`);
 
   const response = await fetch(url.toString());
-
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`NewsAPI request failed: ${response.status} – ${errorText}`);
+    throw new Error(`Serverless news request failed: ${response.status} – ${errorText}`);
   }
 
   const json = await response.json();
   const articles = json.articles || [];
 
-  // Map articles to include proper fields for cards
+  // Map articles to proper fields for cards and keep only those with images
   const mappedArticles = articles
-  .filter(article => article.urlToImage) // keep only articles with images
-  .map(article => ({
-    article_id: article.url,
-    title: article.title,
-    description: article.description,
-    urlToImage: article.urlToImage,
-    source_name: article.source.name,
-    publishedAt: article.publishedAt,
-    url: article.url
-  }));
-
+    .filter(article => article.urlToImage)
+    .map(article => ({
+      article_id: article.url,
+      title: article.title,
+      description: article.description,
+      urlToImage: article.urlToImage,
+      source_name: article.source.name,
+      publishedAt: article.publishedAt,
+      url: article.url
+    }));
 
   // Cache results
   try {
@@ -104,5 +92,3 @@ export function fetchHotNews() {
 export function fetchHeadlines(category = '') {
   return fetchNews({ category, pageSize: 20 });
 }
-
-
