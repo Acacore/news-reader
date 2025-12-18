@@ -1,3 +1,76 @@
+
+
+// src/pages/HomePage.jsx
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Headlines from '../components/Headlines';
+import { fetchHotNews, fetchHeadlines, categories } from '../API';
+import React from 'react'
+
+
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
+
+
+// Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+export default function HomePage() {
+  const navigate = useNavigate();
+
+  const [hotNews, setHotNews] = useState([]);
+  const [hotLoading, setHotLoading] = useState(true);
+  const [hotError, setHotError] = useState(null);
+
+  const [activeCategory, setActiveCategory] = useState('general');
+  const [categoryHeadlines, setCategoryHeadlines] = useState([]);
+  const [headlinesLoading, setHeadlinesLoading] = useState(true);
+  const [headlinesError, setHeadlinesError] = useState(null);
+
+  // Fetch Hot News
+  useEffect(() => {
+    setHotLoading(true);
+    fetchHotNews()
+      .then(data => setHotNews(data))
+      .catch(err => setHotError(err.message))
+      .finally(() => setHotLoading(false));
+  }, []);
+
+  // Fetch Headlines for active category
+  useEffect(() => {
+    setHeadlinesLoading(true);
+    fetchHeadlines(activeCategory)
+      .then(data => setCategoryHeadlines(data))
+      .catch(err => setHeadlinesError(err.message))
+      .finally(() => setHeadlinesLoading(false));
+  }, [activeCategory]);
+
+  // Refresh Functions
+  const refreshHotNews = () => {
+    localStorage.removeItem('newsapi_cache_general_5');
+    setHotLoading(true);
+    fetchHotNews()
+      .then(data => setHotNews(data))
+      .catch(err => setHotError(err.message))
+      .finally(() => setHotLoading(false));
+  };
+
+  const refreshHeadlines = () => {
+    localStorage.removeItem(`newsapi_cache_${activeCategory}_20`);
+    setHeadlinesLoading(true);
+    fetchHeadlines(activeCategory)
+      .then(data => setCategoryHeadlines(data))
+      .catch(err => setHeadlinesError(err.message))
+      .finally(() => setHeadlinesLoading(false));
+  };
+
+  return (
+    
 <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
 
   {/* Hot News Carousel */}
@@ -109,3 +182,9 @@
     </div>
   </section>
 </div>
+  );
+}
+
+
+
+
