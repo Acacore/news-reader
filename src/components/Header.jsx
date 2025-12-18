@@ -12,7 +12,7 @@ export default function Header() {
             <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
               <span className="text-white text-2xl font-bold">N</span>
             </div>
-            <span className="text-2xl font-bold text-gray-900">NewsHub</span>
+            <span className="text-2xl font-bold text-gray-900">AcaNews</span>
           </Link>
 
           {/* Navigation Links */}

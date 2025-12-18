@@ -13,9 +13,9 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                <span className="text-white text-3xl font-bold">N</span>
+                <span className="text-white text-3xl font-bold">A</span>
               </div>
-              <span className="text-4xl font-extrabold tracking-tight">NewsHub</span>  {/* Increased from text-3xl to text-4xl */}
+              <span className="text-4xl font-extrabold tracking-tight">AcaNews</span>  {/* Increased from text-3xl to text-4xl */}
             </div>
             <p className="text-gray-400 text-base leading-relaxed">  {/* Slightly larger description */}
               Your trusted source for the latest news from around the world.
