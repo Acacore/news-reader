@@ -1,6 +1,7 @@
 // src/components/Headlines.jsx
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Headlines({ articles = [], loading = false, error = null, type = 'hot' }) {
   // type = 'hot' | 'headlines'
   const navigate = useNavigate();

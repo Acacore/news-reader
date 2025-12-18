@@ -1,14 +1,12 @@
 // vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';  // Confirm this is installed: npm i -D @tailwindcss/vite
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [
-    react({
-      jsxRuntime: 'classic',  // ← Add this line
-    }),
+    react(),      // automatic runtime (default)
     tailwindcss(),
   ],
   base: '/',
-});
+})

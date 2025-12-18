@@ -9,6 +9,7 @@ import PrivacyPolicy from './pages/PrivacyPage';
 import TermsOfService from './pages/TermsOfService';
 import { useLoading } from './contexts/LoadingContext';
 
+
 export default function App() {
   const { loading } = useLoading();
 

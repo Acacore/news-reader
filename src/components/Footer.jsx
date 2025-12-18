@@ -2,6 +2,8 @@
 import { Link } from 'react-router-dom';  // ← Add this import at the top of Footer.jsx
 
 
+
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white mt-20">

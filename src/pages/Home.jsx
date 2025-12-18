@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Headlines from '../components/Headlines';
 import { fetchHotNews, fetchHeadlines, categories } from '../API';
+import React from 'react'
+
+
 
 // Swiper imports
 import { Swiper, SwiperSlide } from 'swiper/react';

@@ -4,6 +4,8 @@ import Header from './Header'
 import Headlines from './Headlines'
 import Footer from './Footer'
 
+
+
 export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
