@@ -95,6 +95,9 @@ export default function HomePage() {
       <div className="text-center py-16 sm:py-20 text-gray-600">No hot news available.</div>
     ) : (
       <Swiper
+        autoHeight
+        observer
+        observeParents
         style={{ overflow: 'visible' }}
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{ delay: 6000, disableOnInteraction: false }}

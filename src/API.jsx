@@ -55,7 +55,7 @@ export async function fetchNews({ category = '', pageSize = 20 } = {}) {
   // Map articles to proper fields for cards and keep only those with images
   const mappedArticles = articles
     .filter(article => article.urlToImage
-      &&
+    &&
     article.urlToImage.startsWith('https://')
     )
     .map(article => ({
