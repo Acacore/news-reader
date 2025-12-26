@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/* * {
+* {
   overflow: hidden;
-} */
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
