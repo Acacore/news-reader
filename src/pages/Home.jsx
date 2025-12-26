@@ -94,6 +94,8 @@ export default function HomePage() {
     ) : hotNews.length === 0 ? (
       <div className="text-center py-16 sm:py-20 text-gray-600">No hot news available.</div>
     ) : (
+
+     
       <Swiper
         autoHeight
         observer
@@ -139,46 +141,87 @@ export default function HomePage() {
           //     </div>
           //   </div>
           // </SwiperSlide>
-          <SwiperSlide key={index}>
+//   <SwiperSlide key={index}>
+//   <div
+//     className="
+//       relative
+//       w-full
+//       h-64 sm:h-72 md:h-80 lg:h-96
+//       rounded-xl
+//       shadow-lg
+//       cursor-pointer
+//       bg-white
+//       dark:bg-gray-800
+//     "
+//     onClick={() => navigate('/article', { state: { article } })}
+//   >
+//     {/* Image wrapper (fixes mobile rendering bug) */}
+//     <div className="absolute inset-0 overflow-hidden rounded-xl">
+//       {article.urlToImage ? (
+//         <img
+//           src={article.urlToImage}
+//           alt={article.title}
+//           className="
+//             w-full
+//             h-full
+//             object-cover
+//             transition-transform
+//             duration-700
+//             sm:hover:scale-105
+//           "
+//           loading="eager"
+//         />
+//       ) : (
+//         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+//           <span className="text-gray-500 text-sm">No Image</span>
+//         </div>
+//       )}
+//     </div>
+
+//     {/* Overlay */}
+//     <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-xl">
+//       <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2 animate-pulse">
+//         Trending
+//       </span>
+//       <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">
+//         {article.title}
+//       </h2>
+//       {article.description && (
+//         <p className="text-xs sm:text-sm mt-1 sm:mt-2 line-clamp-3">
+//           {article.description}
+//         </p>
+//       )}
+//     </div>
+//   </div>
+// </SwiperSlide>
+<SwiperSlide key={index}>
   <div
     className="
-      relative
       w-full
       h-64 sm:h-72 md:h-80 lg:h-96
       rounded-xl
+      overflow-hidden
       shadow-lg
       cursor-pointer
-      bg-white
-      dark:bg-gray-800
+      bg-black
     "
     onClick={() => navigate('/article', { state: { article } })}
   >
-    {/* Image wrapper (fixes mobile rendering bug) */}
-    <div className="absolute inset-0 overflow-hidden rounded-xl">
-      {article.urlToImage ? (
-        <img
-          src={article.urlToImage}
-          alt={article.title}
-          className="
-            w-full
-            h-full
-            object-cover
-            transition-transform
-            duration-700
-            sm:hover:scale-105
-          "
-          loading="eager"
-        />
-      ) : (
-        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-500 text-sm">No Image</span>
-        </div>
-      )}
-    </div>
+    {article.urlToImage ? (
+      <img
+        src={article.urlToImage}
+        alt={article.title}
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+        <span>No Image</span>
+      </div>
+    )}
 
     {/* Overlay */}
-    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-xl">
-      <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2 animate-pulse">
+    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+      <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold rounded-full mb-2">
         Trending
       </span>
       <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">
@@ -192,6 +235,7 @@ export default function HomePage() {
     </div>
   </div>
 </SwiperSlide>
+
 
         ))}
       </Swiper>
@@ -221,6 +265,8 @@ export default function HomePage() {
             <img
               src={article.urlToImage}
               alt={article.title}
+              referrerPolicy="no-referrer"
+              loading="eager"
               className="w-full h-40 sm:h-48 md:h-56 object-cover"
             />
           ) : (
