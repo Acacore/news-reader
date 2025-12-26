@@ -206,108 +206,308 @@ export default function HomePage() {
 //   );
 
 
-return (
-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
-      {/* Hot News Carousel */}
-      <section>
-        <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold">Breaking News</h1>
-          <button onClick={refreshHotNews} className="...">Refresh</button>
-        </div>
+// return (
+//     <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
+//       {/* Hot News Carousel */}
+//       <section>
+//         <div className="flex justify-between items-center mb-4 sm:mb-6">
+//           <h1 className="text-2xl sm:text-3xl font-bold">Breaking News</h1>
+//           <button onClick={refreshHotNews} className="...">Refresh</button>
+//         </div>
 
-        {hotLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <Swiper
-  /* RE-ENABLED these so Swiper updates when news data arrives */
-  observer={true}
-  observeParents={true}
-  /* Keeps the arrows/pagination visible */
-  style={{ overflow: 'visible' }} 
+//         {hotLoading ? (
+//           <div>Loading...</div>
+//         ) : (
+//           <Swiper
+//   /* RE-ENABLED these so Swiper updates when news data arrives */
+//   observer={true}
+//   observeParents={true}
+//   /* Keeps the arrows/pagination visible */
+//   style={{ overflow: 'visible' }} 
   
-  modules={[Autoplay, Navigation, Pagination]}
-  autoplay={{ delay: 6000, disableOnInteraction: false }}
-  navigation
-  pagination={{ clickable: true }}
-  loop={true} 
-  breakpoints={{
-    0: { slidesPerView: 1, spaceBetween: 15 },
-    640: { slidesPerView: 1, spaceBetween: 20 },
-    768: { slidesPerView: 1, spaceBetween: 25 },
-  }}
->
-            {hotNews.map((article, index) => (
-              <SwiperSlide key={index}>
-                <div
-                  className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl shadow-lg cursor-pointer bg-white dark:bg-gray-800 overflow-hidden transform-gpu"
-                  style={{ transform: 'translateZ(0)' }} // Forces browser to render
-                  onClick={() => navigate('/article', { state: { article } })}
-                >
-                  <div className="w-full h-full"> 
-                    {article.urlToImage ? (
-                      <img
-                        src={article.urlToImage}
-                        alt={article.title}
-                        className="w-full h-full object-cover"
-                        loading="eager"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">No Image</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white">
-                    <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
-      </section>
+//   modules={[Autoplay, Navigation, Pagination]}
+//   autoplay={{ delay: 6000, disableOnInteraction: false }}
+//   navigation
+//   pagination={{ clickable: true }}
+//   loop={true} 
+//   breakpoints={{
+//     0: { slidesPerView: 1, spaceBetween: 15 },
+//     640: { slidesPerView: 1, spaceBetween: 20 },
+//     768: { slidesPerView: 1, spaceBetween: 25 },
+//   }}
+// >
+//             {/* {hotNews.map((article, index) => (
+//               <SwiperSlide key={index}>
+//                 <div
+//                   className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl shadow-lg cursor-pointer bg-white dark:bg-gray-800 overflow-hidden transform-gpu"
+//                   style={{ transform: 'translateZ(0)' }} // Forces browser to render
+//                   onClick={() => navigate('/article', { state: { article } })}
+//                 >
+//                   <div className="w-full h-full"> 
+//                     {article.urlToImage ? (
+//                       <img
+//                         src={article.urlToImage}
+//                         alt={article.title}
+//                         className="w-full h-full object-cover"
+//                         loading="eager"
+//                       />
+//                     ) : (
+//                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+//                         <span className="text-gray-500 text-sm">No Image</span>
+//                       </div>
+//                     )}
+//                   </div>
+//                   <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white">
+//                     <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
+//                   </div>
+//                 </div>
+//               </SwiperSlide>
+//             ))} */}
 
-      {/* Headlines Section */}
-      <section>
-        <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold">Headlines</h2>
-          <button onClick={refreshHeadlines} className="...">Refresh</button>
+//             {/* Hot News Carousel */}
+// <section>
+//   <div className="flex justify-between items-center mb-4 sm:mb-6">
+//     <h1 className="text-2xl sm:text-3xl font-bold">Breaking News</h1>
+//     <button
+//       onClick={refreshHotNews}
+//       className="px-4 py-2 sm:px-5 sm:py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow transition transform hover:scale-105"
+//     >
+//       Refresh
+//     </button>
+//   </div>
+
+//   {hotLoading ? (
+//     <div className="flex justify-center items-center py-16 sm:py-20">
+//       <p className="text-lg sm:text-xl text-gray-600">Loading hot news...</p>
+//     </div>
+//   ) : hotError ? (
+//     <div className="text-center py-16 sm:py-20 text-red-600">{hotError}</div>
+//   ) : hotNews.length > 0 ? ( // ONLY render Swiper when news exists
+//     <Swiper
+//       modules={[Autoplay, Navigation, Pagination]}
+//       autoplay={{ delay: 6000, disableOnInteraction: false }}
+//       navigation
+//       pagination={{ clickable: true }}
+//       loop={true}
+//       observer={true}
+//       observeParents={true}
+//       breakpoints={{
+//         0: { slidesPerView: 1, spaceBetween: 15 },
+//         640: { slidesPerView: 1, spaceBetween: 20 },
+//         768: { slidesPerView: 1, spaceBetween: 25 },
+//       }}
+//       className="rounded-xl"
+//     >
+//       {hotNews.map((article, index) => (
+//         <SwiperSlide key={index}>
+//           <div
+//             className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl shadow-lg cursor-pointer bg-white dark:bg-gray-800 overflow-hidden transform-gpu"
+//             style={{ transform: 'translateZ(0)' }}
+//             onClick={() => navigate('/article', { state: { article } })}
+//           >
+//             {/* Image Layer */}
+//             <div className="w-full h-full">
+//               {article.urlToImage ? (
+//                 <img
+//                   src={article.urlToImage}
+//                   alt={article.title}
+//                   className="w-full h-full object-cover"
+//                   loading="eager"
+//                 />
+//               ) : (
+//                 <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+//                   <span className="text-gray-500 text-sm">No Image</span>
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Content Overlay */}
+//             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white">
+//               <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2">
+//                 Trending
+//               </span>
+//               <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">
+//                 {article.title}
+//               </h2>
+//             </div>
+//           </div>
+//         </SwiperSlide>
+//       ))}
+//     </Swiper>
+//   ) : (
+//     <div className="text-center py-16 sm:py-20 text-gray-600">No hot news available.</div>
+//   )}
+// </section>
+//           </Swiper>
+//         )}
+//       </section>
+
+//       {/* Headlines Section */}
+//       <section>
+//         <div className="flex justify-between items-center mb-4 sm:mb-6">
+//           <h2 className="text-xl sm:text-2xl font-bold">Headlines</h2>
+//           <button onClick={refreshHeadlines} className="...">Refresh</button>
+//         </div>
+
+//         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+//           {categoryHeadlines.map((article, index) => (
+//             <div
+//               key={index}
+//               /* Added transform-gpu and translateZ style here as well */
+//               className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-transform duration-300 cursor-pointer transform-gpu"
+//               style={{ transform: 'translateZ(0)' }}
+//               onClick={() => navigate('/article', { state: { article } })}
+//             >
+//               <div className="w-full h-40 sm:h-48 md:h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+//                 {article.urlToImage ? (
+//                   <img
+//                     src={article.urlToImage}
+//                     alt={article.title}
+//                     loading="eager"
+//                     className="w-full h-full object-cover"
+//                   />
+//                 ) : (
+//                   <div className="w-full h-full flex items-center justify-center">
+//                     <span className="text-gray-500 text-sm">No Image</span>
+//                   </div>
+//                 )}
+//               </div>
+//               <div className="p-3 sm:p-4">
+//                 <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm sm:text-base">
+//                   {article.title}
+//                 </h3>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+//     </div>
+//   );
+
+
+return (
+  <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
+    
+    {/* Hot News Carousel */}
+    <section>
+      <div className="flex justify-between items-center mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Breaking News</h1>
+        <button 
+          onClick={refreshHotNews} 
+          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow hover:scale-105 transition"
+        >
+          Refresh
+        </button>
+      </div>
+
+      {hotLoading ? (
+        <div className="flex justify-center items-center py-16 sm:py-20">
+          <p className="text-lg text-gray-600">Loading hot news...</p>
         </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {categoryHeadlines.map((article, index) => (
-            <div
-              key={index}
-              /* Added transform-gpu and translateZ style here as well */
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-transform duration-300 cursor-pointer transform-gpu"
-              style={{ transform: 'translateZ(0)' }}
-              onClick={() => navigate('/article', { state: { article } })}
-            >
-              <div className="w-full h-40 sm:h-48 md:h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                {article.urlToImage ? (
-                  <img
-                    src={article.urlToImage}
-                    alt={article.title}
-                    loading="eager"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">No Image</span>
-                  </div>
-                )}
+      ) : hotError ? (
+        <div className="text-center py-16 text-red-600">{hotError}</div>
+      ) : hotNews.length > 0 ? (
+        <Swiper
+          modules={[Autoplay, Navigation, Pagination]}
+          autoplay={{ delay: 6000, disableOnInteraction: false }}
+          navigation
+          pagination={{ clickable: true }}
+          loop={true}
+          observer={true}
+          observeParents={true}
+          style={{ overflow: 'visible' }}
+          breakpoints={{
+            0: { slidesPerView: 1, spaceBetween: 15 },
+            640: { slidesPerView: 1, spaceBetween: 20 },
+            768: { slidesPerView: 1, spaceBetween: 25 },
+          }}
+          className="rounded-xl"
+        >
+          {hotNews.map((article, index) => (
+            <SwiperSlide key={index}>
+              <div
+                className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl shadow-lg cursor-pointer bg-white dark:bg-gray-800 overflow-hidden transform-gpu"
+                style={{ transform: 'translateZ(0)' }}
+                onClick={() => navigate('/article', { state: { article } })}
+              >
+                <div className="w-full h-full">
+                  {article.urlToImage ? (
+                    <img
+                      src={article.urlToImage}
+                      alt={article.title}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-500 text-sm">No Image</span>
+                    </div>
+                  )}
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white">
+                  <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2">
+                    Trending
+                  </span>
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
+                </div>
               </div>
-              <div className="p-3 sm:p-4">
-                <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm sm:text-base">
-                  {article.title}
-                </h3>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <div className="text-center py-16 text-gray-600">No hot news available.</div>
+      )}
+    </section>
+
+    {/* Headlines Section */}
+    <section>
+      <div className="flex justify-between items-center mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold">Headlines</h2>
+        <button 
+          onClick={refreshHeadlines} 
+          className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:scale-105 transition"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {categoryHeadlines.map((article, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-transform duration-300 cursor-pointer transform-gpu"
+            style={{ transform: 'translateZ(0)' }}
+            onClick={() => navigate('/article', { state: { article } })}
+          >
+            <div className="w-full h-40 sm:h-48 md:h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+              {article.urlToImage ? (
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  loading="eager"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-gray-500 text-sm">No Image</span>
+                </div>
+              )}
+            </div>
+            <div className="p-3 sm:p-4">
+              <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm sm:text-base">
+                {article.title}
+              </h3>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 flex justify-between">
+                <span>{article.source_name || 'Unknown'}</span>
+                <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+);
 
 
 }

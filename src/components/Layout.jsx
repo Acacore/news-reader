@@ -8,7 +8,7 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 relative">
       <Header />
       {/* Removed 'relative z-0' - this is usually what causes the "solid color" glitch */}
-      <main className="flex-1 w-full overflow-x-hidden">
+      <main className="flex-1 w-full">
         <Outlet />
       </main>
       <Footer />
