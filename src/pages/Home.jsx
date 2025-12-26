@@ -408,13 +408,18 @@ return (
         <div className="text-center py-16 text-red-600">{hotError}</div>
       ) : hotNews.length > 0 ? (
         <Swiper
+          autoHeight={false} 
+  /* Use 'slide' effect instead of 'coverflow' or others if they were enabled */
+  effect="slide"
+  /* Rest of your current props... */
+  observer={true}
+  observeParents={true}
+  loop={hotNews.length > 1}
           modules={[Autoplay, Navigation, Pagination]}
           autoplay={{ delay: 6000, disableOnInteraction: false }}
           navigation
           pagination={{ clickable: true }}
-          loop={true}
-          observer={true}
-          observeParents={true}
+          
           style={{ overflow: 'visible' }}
           breakpoints={{
             0: { slidesPerView: 1, spaceBetween: 15 },

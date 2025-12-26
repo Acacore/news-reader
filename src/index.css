@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* 
 * {
   overflow: hidden;
 }
@@ -71,4 +71,27 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+
+/* This allows the page to scroll while preventing the rendering crash */
+html, body {
+  overflow-x: hidden; /* Prevent sideways wobbling */
+  overflow-y: auto;   /* Allow normal vertical scrolling */
+  height: auto;
+  min-height: 100%;
+}
+
+/* This fixes the "Solid Color" bug by forcing the browser 
+   to treat the slider as a simple 2D layer on mobile */
+.swiper {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  -webkit-overflow-scrolling: touch;
+}
+
+.swiper-slide {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
