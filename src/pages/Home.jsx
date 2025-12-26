@@ -95,6 +95,7 @@ export default function HomePage() {
       <div className="text-center py-16 sm:py-20 text-gray-600">No hot news available.</div>
     ) : (
       <Swiper
+        style={{ overflow: 'visible' }}
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{ delay: 6000, disableOnInteraction: false }}
         navigation
@@ -107,34 +108,88 @@ export default function HomePage() {
         }}
       >
         {hotNews.map((article, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl overflow-hidden shadow-lg cursor-pointer group bg-white dark:bg-gray-800"
-              onClick={() => navigate('/article', { state: { article } })}
-            >
-              {article.urlToImage ? (
-                <img
-                  src={article.urlToImage}
-                  alt={article.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">No Image</span>
-                </div>
-              )}
+          // <SwiperSlide key={index}>
+          //   <div
+          //     className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl overflow-hidden shadow-lg cursor-pointer group bg-white dark:bg-gray-800"
+          //     onClick={() => navigate('/article', { state: { article } })}
+          //   >
+          //     {article.urlToImage ? (
+          //       <img
+          //         src={article.urlToImage}
+          //         alt={article.title}
+          //         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          //       />
+          //     ) : (
+          //       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+          //         <span className="text-gray-500 text-sm">No Image</span>
+          //       </div>
+          //     )}
 
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
-                <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2 animate-pulse">
-                  Trending
-                </span>
-                <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
-                {article.description && (
-                  <p className="text-xs sm:text-sm mt-1 sm:mt-2 line-clamp-3">{article.description}</p>
-                )}
-              </div>
-            </div>
-          </SwiperSlide>
+          //     <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
+          //       <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2 animate-pulse">
+          //         Trending
+          //       </span>
+          //       <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">{article.title}</h2>
+          //       {article.description && (
+          //         <p className="text-xs sm:text-sm mt-1 sm:mt-2 line-clamp-3">{article.description}</p>
+          //       )}
+          //     </div>
+          //   </div>
+          // </SwiperSlide>
+          <SwiperSlide key={index}>
+  <div
+    className="
+      relative
+      w-full
+      h-64 sm:h-72 md:h-80 lg:h-96
+      rounded-xl
+      shadow-lg
+      cursor-pointer
+      bg-white
+      dark:bg-gray-800
+    "
+    onClick={() => navigate('/article', { state: { article } })}
+  >
+    {/* Image wrapper (fixes mobile rendering bug) */}
+    <div className="absolute inset-0 overflow-hidden rounded-xl">
+      {article.urlToImage ? (
+        <img
+          src={article.urlToImage}
+          alt={article.title}
+          className="
+            w-full
+            h-full
+            object-cover
+            transition-transform
+            duration-700
+            sm:hover:scale-105
+          "
+          loading="eager"
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+          <span className="text-gray-500 text-sm">No Image</span>
+        </div>
+      )}
+    </div>
+
+    {/* Overlay */}
+    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-xl">
+      <span className="inline-block bg-red-600 px-2 py-1 text-xs font-semibold uppercase rounded-full mb-2 animate-pulse">
+        Trending
+      </span>
+      <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-2">
+        {article.title}
+      </h2>
+      {article.description && (
+        <p className="text-xs sm:text-sm mt-1 sm:mt-2 line-clamp-3">
+          {article.description}
+        </p>
+      )}
+    </div>
+  </div>
+</SwiperSlide>
+
         ))}
       </Swiper>
     )}
