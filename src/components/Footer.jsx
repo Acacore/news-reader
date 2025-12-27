@@ -98,7 +98,10 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p className="text-base">&copy; 2025 NewsHub. All rights reserved.</p>  {/* Larger copyright */}
+         <p className="text-base">
+  &copy; {new Date().getFullYear()} Acanews All rights reserved.
+</p>
+
           <p className="mt-1 text-sm">Powered by Acacore</p>
         </div>
       </div>
