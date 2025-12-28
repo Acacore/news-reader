@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
 import ArticleDetails from './pages/ArticleDetails.jsx';
+import ScrollToTop from './components/ScrollToTop';
 import AboutUs from './pages/AboutUs.jsx';
 import Contact from './pages/Contact.jsx';
 import PrivacyPolicy from './pages/PrivacyPage.jsx';
@@ -10,6 +11,7 @@ import TermsOfService from './pages/TermsOfService.jsx';
 import { useLoading } from './contexts/LoadingContext.jsx';
 import CategoryPage from './pages/CategoryPages.jsx';
 import { useState } from 'react';
+
 
 export default function App() {
   const { loading } = useLoading();
@@ -40,6 +42,7 @@ export default function App() {
 
       {/* App routing */}
       <BrowserRouter>
+       <ScrollToTop />
         <Routes>
             <Route element={<Layout />}>
             
