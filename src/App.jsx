@@ -33,12 +33,12 @@ export default function App() {
       )}
 
       {/* Dark mode toggle button */}
-      <button
+      {/* <button
         onClick={toggleDarkMode}
         className="fixed top-4 right-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded z-50"
       >
         {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
+      </button> */}
 
       {/* App routing */}
       <BrowserRouter>
