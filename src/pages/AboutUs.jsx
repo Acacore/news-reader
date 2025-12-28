@@ -7,7 +7,7 @@ export default function AboutUs() {
         <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">About NewsHub</h1>
         <div className="prose prose-lg mx-auto text-gray-600">
           <p className="lead text-xl mb-6">
-            NewsHub is your trusted source for the latest and most reliable news from around the world.
+            AcaNews is your trusted source for the latest and most reliable news from around the world.
           </p>
           <p className="mb-6">
             Founded in 2025, our mission is to deliver accurate, unbiased, and timely news to keep you informed about what matters most. We aggregate stories from reputable sources across various categories including technology, business, sports, entertainment, and more.
