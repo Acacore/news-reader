@@ -8,6 +8,7 @@ import Contact from './pages/Contact.jsx';
 import PrivacyPolicy from './pages/PrivacyPage.jsx';
 import TermsOfService from './pages/TermsOfService.jsx';
 import { useLoading } from './contexts/LoadingContext.jsx';
+import CategoryPage from './pages/CategoryPages.jsx';
 import { useState } from 'react';
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/:category" element={<CategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
