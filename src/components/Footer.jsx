@@ -1,8 +1,4 @@
-
-import { Link } from 'react-router-dom';  // ← Add this import at the top of Footer.jsx
-
-
-
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -15,57 +11,83 @@ export default function Footer() {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
                 <span className="text-white text-3xl font-bold">A</span>
               </div>
-              <span className="text-4xl font-extrabold tracking-tight">AcaNews</span>  {/* Increased from text-3xl to text-4xl */}
+              <span className="text-4xl font-extrabold tracking-tight">AcaNews</span>
             </div>
-            <p className="text-gray-400 text-base leading-relaxed">  {/* Slightly larger description */}
+            <p className="text-gray-400 text-base leading-relaxed">
               Your trusted source for the latest news from around the world.
             </p>
           </div>
 
           {/* Quick Links */}
-          
-
-<div>
-  <h3 className="text-2xl font-extrabold mb-5 tracking-wide">Quick Links</h3>
-  <ul className="space-y-8">  {/* Reduced from space-y-8 to space-y-4 for better spacing */}
-    <li>
-      <Link to="/about" className="text-gray-300 hover:text-white transition text-base">
-        About Us
-      </Link>
-    </li>
-    <li>
-      <Link to="/contact" className="text-gray-300 hover:text-white transition text-base">
-        Contact
-      </Link>
-    </li>
-    <li>
-      <Link to="/privacy" className="text-gray-300 hover:text-white transition text-base">
-        Privacy Policy
-      </Link>
-    </li>
-    <li>
-      <Link to="/terms" className="text-gray-300 hover:text-white transition text-base">
-        Terms of Service
-      </Link>
-    </li>
-  </ul>
-</div>
-
-          {/* Categories */}
           <div>
-            <h3 className="text-2xl font-extrabold mb-5 tracking-wide">Categories</h3>  {/* Increased from text-xl to text-2xl */}
-            <ul className="space-y-8">
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Technology</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Business</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Sports</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition text-base">Entertainment</a></li>
+            <h3 className="text-2xl font-extrabold mb-5 tracking-wide text-white">Quick Links</h3>
+            <ul className="space-y-6">
+              <li>
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Categories – now using Link */}
+          <div>
+            <h3 className="text-2xl font-extrabold mb-5 tracking-wide text-white">Categories</h3>
+            <ul className="space-y-6">
+              <li>
+                <Link 
+                  to="/technology" 
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium"
+                >
+                  Technology
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/business" 
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium"
+                >
+                  Business
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/sports" 
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium"
+                >
+                  Sports
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/entertainment" 
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-base font-medium"
+                >
+                  Entertainment
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Subscribe */}
           <div className="md:col-span-1">
             <div className="bg-gray-800/50 backdrop-blur-md rounded-2xl p-6 border border-gray-700/50">
-              <h3 className="text-2xl font-bold text-white mb-3">Stay Updated</h3>  {/* Slightly larger */}
+              <h3 className="text-2xl font-bold text-white mb-3">Stay Updated</h3>
               <p className="text-gray-400 text-sm mb-6">
                 Subscribe to get the latest news delivered to your inbox.
               </p>
@@ -98,10 +120,9 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-         <p className="text-base">
-  &copy; {new Date().getFullYear()} Acanews All rights reserved.
-</p>
-
+          <p className="text-base">
+            &copy; {new Date().getFullYear()} AcaNews All rights reserved.
+          </p>
           <p className="mt-1 text-sm">Powered by Acacore</p>
         </div>
       </div>
