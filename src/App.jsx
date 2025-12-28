@@ -42,11 +42,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
             <Route element={<Layout />}>
-            <Route path="/technology" element={<CategoryPage />} />
-            <Route path="/business" element={<CategoryPage />} />
-            <Route path="/sports" element={<CategoryPage />} />
-            <Route path="/entertainment" element={<CategoryPage />} />
+            
             <Route path="/" element={<Home />} />
+            <Route path="/:category" element={<CategoryPage />} />
             <Route path="/article" element={<ArticleDetails />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
