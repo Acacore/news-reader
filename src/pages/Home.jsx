@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
+// src/pages/HomePage.jsx
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import NewsSearch from "../components/NewsSearch";
-import Headlines from "../components/Headlines";
-
-import {
-  fetchHotNews,
-  fetchHeadlines,
-  searchNews,
-} from "../API";
+import { fetchHotNews, fetchHeadlines, searchNews } from "../API";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,8 +16,7 @@ import "swiper/css/pagination";
 export default function HomePage() {
   const navigate = useNavigate();
 
-  /* STATE */
-
+  /* -------------------- STATE -------------------- */
   const [hotNews, setHotNews] = useState([]);
   const [hotLoading, setHotLoading] = useState(true);
   const [hotError, setHotError] = useState(null);
@@ -36,18 +30,26 @@ export default function HomePage() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
 
-  /* EFFECTS */
+  /* -------------------- EFFECTS -------------------- */
 
-  // Hot News
+  // Fetch hot news
   useEffect(() => {
-    setHotLoading(true);
-    fetchHotNews()
-      .then(setHotNews)
-      .catch(err => setHotError(err.message))
-      .finally(() => setHotLoading(false));
+    loadHotNews();
   }, []);
 
-  // Category Headlines
+  const loadHotNews = async () => {
+    setHotLoading(true);
+    try {
+      const data = await fetchHotNews();
+      setHotNews(data);
+    } catch (err) {
+      setHotError(err.message);
+    } finally {
+      setHotLoading(false);
+    }
+  };
+
+  // Fetch headlines by category
   useEffect(() => {
     if (isSearching) return;
 
@@ -58,12 +60,11 @@ export default function HomePage() {
       .finally(() => setHeadlinesLoading(false));
   }, [activeCategory, isSearching]);
 
-  /* HANDLERS */
+  /* -------------------- HANDLERS -------------------- */
 
   const handleSearch = async (query) => {
     setSearchLoading(true);
     setIsSearching(true);
-
     try {
       const data = await searchNews({ query });
       setSearchResults(data);
@@ -79,10 +80,7 @@ export default function HomePage() {
 
   const refreshHotNews = () => {
     localStorage.removeItem("newsapi_cache_general_5");
-    setHotLoading(true);
-    fetchHotNews()
-      .then(setHotNews)
-      .finally(() => setHotLoading(false));
+    loadHotNews();
   };
 
   const refreshHeadlines = () => {
@@ -93,14 +91,11 @@ export default function HomePage() {
       .finally(() => setHeadlinesLoading(false));
   };
 
-  /* DATA SOURCE */
+  /* -------------------- DISPLAYED DATA -------------------- */
 
-  const displayedArticles = isSearching
-    ? searchResults
-    : categoryHeadlines;
+  const displayedArticles = isSearching ? searchResults : categoryHeadlines;
 
-  /* RENDER */
-
+  /* -------------------- RENDER -------------------- */
   return (
     <div className="container mx-auto px-4 py-8 space-y-12">
 
@@ -108,10 +103,8 @@ export default function HomePage() {
       <NewsSearch onSearch={handleSearch} loading={searchLoading} />
 
       {isSearching && (
-        <div className="flex justify-between items-center">
-          <p className="text-sm text-gray-500">
-            Showing search results
-          </p>
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-sm text-gray-500">Showing search results</p>
           <button
             onClick={clearSearch}
             className="text-sm text-indigo-600 hover:underline"
@@ -121,7 +114,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* HOT NEWS */}
+      {/* ---------------- HOT NEWS ---------------- */}
       <section>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold">Breaking News</h1>
@@ -134,9 +127,7 @@ export default function HomePage() {
         </div>
 
         {hotLoading ? (
-          <p className="text-center py-16 text-gray-500">
-            Loading hot news...
-          </p>
+          <p className="text-center py-16 text-gray-500">Loading hot news...</p>
         ) : hotError ? (
           <p className="text-center text-red-600">{hotError}</p>
         ) : (
@@ -146,16 +137,12 @@ export default function HomePage() {
             navigation
             pagination={{ clickable: true }}
             loop={hotNews.length > 1}
-            breakpoints={{
-              0: { slidesPerView: 1, spaceBetween: 15 },
-            }}
+            breakpoints={{ 0: { slidesPerView: 1, spaceBetween: 15 } }}
           >
             {hotNews.map((article, index) => (
               <SwiperSlide key={index}>
                 <div
-                  onClick={() =>
-                    navigate("/article", { state: { article } })
-                  }
+                  onClick={() => navigate("/article", { state: { article } })}
                   className="relative h-72 rounded-xl overflow-hidden cursor-pointer"
                 >
                   <img
@@ -175,7 +162,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* HEADLINES / SEARCH RESULTS */}
+      {/* ---------------- HEADLINES / SEARCH RESULTS ---------------- */}
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl sm:text-2xl font-bold">
@@ -193,9 +180,7 @@ export default function HomePage() {
         </div>
 
         {(headlinesLoading || searchLoading) && (
-          <p className="text-center text-gray-500 py-10">
-            Loading articles...
-          </p>
+          <p className="text-center text-gray-500 py-10">Loading articles...</p>
         )}
 
         {!headlinesLoading && displayedArticles.length === 0 && (
@@ -208,9 +193,7 @@ export default function HomePage() {
           {displayedArticles.map((article, index) => (
             <div
               key={index}
-              onClick={() =>
-                navigate("/article", { state: { article } })
-              }
+              onClick={() => navigate("/article", { state: { article } })}
               className="bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer"
             >
               <img
@@ -224,9 +207,7 @@ export default function HomePage() {
                 </h3>
                 <p className="text-xs text-gray-500 mt-2 flex justify-between">
                   <span>{article.source_name}</span>
-                  <span>
-                    {new Date(article.publishedAt).toLocaleDateString()}
-                  </span>
+                  <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
                 </p>
               </div>
             </div>
