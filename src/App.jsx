@@ -42,21 +42,26 @@ export default function App() {
 
       {/* App routing */}
       <BrowserRouter>
-       <ScrollToTop />
-        <Routes>
-            <Route element={<Layout />}>
-            
-            <Route path="/" element={<Home />} />
-            <Route path="/:category" element={<CategoryPage />} />
-            <Route path="/article" element={<ArticleDetails />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/:category" element={<CategoryPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+  <ScrollToTop />
+
+  <Routes>
+    {/* Main site pages with full layout */}
+    <Route element={<Layout />}>
+      <Route index element={<Home />} />
+      <Route path=":category" element={<CategoryPage />} />
+      <Route path="about" element={<AboutUs />} />
+      <Route path="contact" element={<Contact />} />
+      <Route path="privacy" element={<PrivacyPolicy />} />
+      <Route path="terms" element={<TermsOfService />} />
+    </Route>
+
+    {/* Article page – often uses minimal or different layout */}
+    <Route path="/article" element={<ArticleDetails />} />
+
+    {/* Optional 404 */}
+    {/* <Route path="*" element={<NotFound />} /> */}
+  </Routes>
+</BrowserRouter>
     </>
   );
 }
