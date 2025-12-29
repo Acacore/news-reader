@@ -5,7 +5,7 @@ export default function TermsOfService() {
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-extrabold  text-[#0a0f4a] mb-8 text-center">Terms of Service</h1>
+        <h1 className="text-4xl font-extrabold  text-[#0a0f4a] mb-8 text-center !text-[#0a0f4a]">Terms of Service</h1>
         <div className="prose prose-lg mx-auto text-gray-600">
           <p className="text-sm text-gray-500 mb-8">Last updated: December 17, 2025</p>
           <p className="mb-6">
