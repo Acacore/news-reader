@@ -57,9 +57,6 @@ export default function App() {
 
     {/* Article page – often uses minimal or different layout */}
     <Route path="/article" element={<ArticleDetails />} />
-
-    {/* Optional 404 */}
-    {/* <Route path="*" element={<NotFound />} /> */}
   </Routes>
 </BrowserRouter>
     </>
