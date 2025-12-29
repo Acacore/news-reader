@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">Contact Us</h1>
+        <h1 className="text-4xl font-extrabold  text-[#0a0f4a] mb-8 text-center">Contact Us</h1>
         <div className="grid md:grid-cols-2 gap-12">
           <div className="prose prose-lg text-gray-600">
             <p className="text-xl mb-6">
@@ -16,14 +16,14 @@ export default function Contact() {
             <div className="space-y-4 mt-8">
               <div className="flex items-center space-x-3">
                 <span className="font-semibold">Email:</span>
-                <a href="mailto:contact@newshub.example.com" className="text-indigo-600 hover:underline">
-                  contact@newshub.example.com
+                <a href="mailto:contact@acanews.com" className="text-indigo-600 hover:underline">
+                  contact@acanews.com
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <span className="font-semibold">Support:</span>
-                <a href="mailto:support@newshub.example.com" className="text-indigo-600 hover:underline">
-                  support@newshub.example.com
+                <a href="mailto:support@acanews.example.com" className="text-indigo-600 hover:underline">
+                  support@acanews.example.com
                 </a>
               </div>
             </div>

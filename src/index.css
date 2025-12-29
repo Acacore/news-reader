@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
-/* 
-   Design Tokens */
+/* Design Tokens */
 
 :root {
   --bg-dark: #2e3650;          /* Soft navy background */
@@ -47,9 +46,7 @@ html, body {
   justify-content: center;
 } */
 
-/* =========================
-   Typography
-========================= */
+/* Typography */
 h1, h2, h3, h4 {
   font-weight: 600;
   color: inherit;
@@ -60,9 +57,7 @@ h1 {
   line-height: 1.2;
 }
 
-/* =========================
-   Links
-========================= */
+/* Links */
 a {
   color: var(--link);
   font-weight: 500;
@@ -75,9 +70,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* =========================
-   Buttons
-========================= */
+/* Buttons */
 button {
   display: inline-flex;
   align-items: center;
@@ -109,9 +102,7 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* =========================
-   Light Mode
-========================= */
+/* Light Mode */
 @media (prefers-color-scheme: light) {
   :root {
     background-color: var(--bg-light);
@@ -119,9 +110,7 @@ button:focus-visible {
   }
 }
 
-/* =========================
-   Mobile / Swiper Fixes
-========================= */
+/* Mobile / Swiper Fixes */
 
 /* Make images render correctly on mobile */
 img {
