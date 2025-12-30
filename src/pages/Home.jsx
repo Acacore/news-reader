@@ -192,19 +192,19 @@ export default function HomePage() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {displayedArticles.map((article, index) => (
-            <div
-              key={index}
-              onClick={() => navigate("/article", { state: { article } })}
-              className="bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer"
-            >
-              <img
-                src={article.urlToImage}
-                alt={article.title}
-                className="w-full h-48 object-cover rounded-t-xl"
-              />
-              <div className="p-3 sm:p-4">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  {displayedArticles.map((article, index) => (
+    <div
+      key={index}
+      onClick={() => navigate("/article", { state: { article } })}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition cursor-pointer overflow-hidden group"
+    >
+      <img
+        src={article.urlToImage}
+        alt={article.title}
+        className="w-full h-48 object-cover rounded-t-xl"
+      />
+      <div className="p-3 sm:p-4">
         <h3
           className="
             mb-2
@@ -216,17 +216,20 @@ export default function HomePage() {
             group-hover:text-indigo-600 dark:group-hover:text-indigo-400
           "
         >
-          {title}
+          {article.title}
         </h3>
 
         <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-          <span>{source}</span>
-          <time dateTime={publishedAt}>{date}</time>
+          <span>{article.source_name || "Unknown"}</span>
+          <time dateTime={article.publishedAt}>
+            {new Date(article.publishedAt).toLocaleDateString()}
+          </time>
         </div>
       </div>
-            </div>
-          ))}
-        </div>
+    </div>
+  ))}
+</div>
+
       </section>
     </div>
   );
