@@ -167,70 +167,61 @@ export default function HomePage() {
 
       {/* ---------------- HEADLINES / SEARCH RESULTS ---------------- */}
       <section>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold">
-            {isSearching ? "Search Results" : "Headlines"}
-          </h2>
+  <div className="flex justify-between items-center mb-6">
+    <h2 className="text-xl sm:text-2xl font-bold">
+      {isSearching ? "Search Results" : "Headlines"}
+    </h2>
 
-          {!isSearching && (
-            <button
-              onClick={refreshHeadlines}
-              className="px-3 py-1 bg-blue-600 text-white rounded-lg"
-            >
-              Refresh
-            </button>
-          )}
+    {!isSearching && (
+      <button
+        onClick={refreshHeadlines}
+        className="px-3 py-1 bg-blue-600 text-white rounded-lg"
+      >
+        Refresh
+      </button>
+    )}
+  </div>
+
+  {(headlinesLoading || searchLoading) && (
+    <p className="text-center text-gray-500 py-10">Loading articles...</p>
+  )}
+
+  {!headlinesLoading && displayedArticles.length === 0 && (
+    <p className="text-center text-gray-500 py-10">No articles found.</p>
+  )}
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {displayedArticles.map((article, index) => (
+      <div
+        key={index}
+        onClick={() => navigate("/article", { state: { article } })}
+        className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition cursor-pointer overflow-hidden group"
+      >
+        <div className="w-full h-48">
+          <img
+            src={article.urlToImage}
+            alt={article.title}
+            className="w-full h-full object-cover object-center"
+          />
         </div>
 
-        {(headlinesLoading || searchLoading) && (
-          <p className="text-center text-gray-500 py-10">Loading articles...</p>
-        )}
+        <div className="p-3 sm:p-4">
+          <h3 className="mb-2 text-sm sm:text-base font-semibold text-gray-900 dark:text-white line-clamp-2 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+            {article.title}
+          </h3>
 
-        {!headlinesLoading && displayedArticles.length === 0 && (
-          <p className="text-center text-gray-500 py-10">
-            No articles found.
-          </p>
-        )}
-
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-  {displayedArticles.map((article, index) => (
-    <div
-      key={index}
-      onClick={() => navigate("/article", { state: { article } })}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition cursor-pointer overflow-hidden group"
-    >
-      <img
-        src={article.urlToImage}
-        alt={article.title}
-        className="w-full h-full object-cover object-center"
-      />
-      <div className="p-3 sm:p-4">
-        <h3
-          className="
-            mb-2
-            text-sm sm:text-base
-            font-semibold
-            text-gray-900 dark:text-white
-            line-clamp-2
-            transition-colors
-            group-hover:text-indigo-600 dark:group-hover:text-indigo-400
-          "
-        >
-          {article.title}
-        </h3>
-
-        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-          <span>{article.source_name || "Unknown"}</span>
-          <time dateTime={article.publishedAt}>
-            {new Date(article.publishedAt).toLocaleDateString()}
-          </time>
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+            <span>{article.source_name || "Unknown"}</span>
+            <time dateTime={article.publishedAt}>
+              {new Date(article.publishedAt).toLocaleDateString()}
+            </time>
+          </div>
         </div>
       </div>
-    </div>
-  ))}
-</div>
+    ))}
+  </div>
+</section>
 
-      </section>
     </div>
   );
 }
