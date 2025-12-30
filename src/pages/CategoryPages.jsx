@@ -81,6 +81,7 @@ import { useParams } from 'react-router-dom';
 import { fetchHeadlines } from '../API';
 import NewsGrid from '../components/NewsGrid';
 
+
 const SUPPORTED_CATEGORIES = [
   'business',
   'entertainment',
@@ -159,12 +160,15 @@ export default function CategoryPage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="">
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 capitalize">
         {pageTitle}
       </h1>
 
       <NewsGrid articles={articles} />
     </main>
+    </div>
   );
 }
