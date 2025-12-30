@@ -204,16 +204,26 @@ export default function HomePage() {
                 alt={article.title}
                 className="w-full h-48 object-cover rounded-t-xl"
               />
-              <div className="p-4 bg-gray-50 rounded-b-xl shadow-sm">
-  <h3 className="font-semibold line-clamp-2 text-[#0a0f4a]">
-    {article.title}
-  </h3>
-  <p className="text-xs text-gray-600 mt-2 flex justify-between">
-    <span>{article.source_name || 'Unknown'}</span>
-    <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
-  </p>
-</div>
+              <div className="p-3 sm:p-4">
+        <h3
+          className="
+            mb-2
+            text-sm sm:text-base
+            font-semibold
+            text-gray-900 dark:text-white
+            line-clamp-2
+            transition-colors
+            group-hover:text-indigo-600 dark:group-hover:text-indigo-400
+          "
+        >
+          {title}
+        </h3>
 
+        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+          <span>{source}</span>
+          <time dateTime={publishedAt}>{date}</time>
+        </div>
+      </div>
             </div>
           ))}
         </div>
