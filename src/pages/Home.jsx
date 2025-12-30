@@ -76,24 +76,26 @@ export default function HomePage() {
 // }, []);
 
 const handleSearch = useCallback(async (query) => {
-  // 1. Clear old results immediately so the screen resets
-  setSearchResults([]); 
-  
+  if (!query) return;
+
+  setSearchResults([]); // Clear old results
   setSearchLoading(true);
   setIsSearching(true);
   
   try {
     const data = await searchNews({ query });
-    // 2. Set the new data once it arrives
-    setSearchResults(data);
+    
+    // FIX: Ensure data is an array. 
+    // If 'data' is the object { articles: [...] }, we take the articles.
+    const sanitizedData = Array.isArray(data) ? data : (data.articles || []);
+    
+    setSearchResults(sanitizedData);
   } catch (error) {
     console.error("Search failed:", error);
-    // Optional: setSearchResults([]); // Clear again if search fails
   } finally {
     setSearchLoading(false);
   }
 }, []);
-
 
   const clearSearch = () => {
     setIsSearching(false);

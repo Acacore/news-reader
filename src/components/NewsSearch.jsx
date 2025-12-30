@@ -9,10 +9,17 @@ export default function NewsSearch({ onSearch, loading }) {
   const debouncedQuery = useDebounce(query, 600);
 
   // Auto-search when user stops typing
+  // useEffect(() => {
+  //   if (!debouncedQuery.trim()) return;
+  //   onSearch(debouncedQuery.trim());
+  // }, [debouncedQuery, onSearch]);
+
   useEffect(() => {
-    if (!debouncedQuery.trim()) return;
-    onSearch(debouncedQuery.trim());
-  }, [debouncedQuery, onSearch]);
+    const trimmed = debouncedQuery.trim();
+    if (trimmed.length > 2) { // Only search if there are at least 3 characters
+      onSearch(trimmed);
+    }
+  }, [debouncedQuery]); 
 
   return (
     <div className="w-full mb-8">
