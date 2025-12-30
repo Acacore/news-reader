@@ -202,7 +202,7 @@ export default function HomePage() {
       <img
         src={article.urlToImage}
         alt={article.title}
-        className="w-full h-48 object-cover rounded-t-xl"
+        className="w-full h-full object-cover object-center"
       />
       <div className="p-3 sm:p-4">
         <h3
