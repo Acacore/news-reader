@@ -1,27 +1,10 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-
-
-
-# 📰 News Reader Web App
+# AcaNews News Reader Web App
 
 ## 📌 Project Overview
-The **News Reader Web App** is a responsive web application built with React that fetches and displays the latest news articles from a public news API. The application allows users to browse top headlines, search for news by keyword, and read brief summaries before visiting the original source for full articles.
+The **AcaNews** is a responsive web application built with React that fetches and displays the latest news articles from a public news API. The application allows users to browse top headlines, search for news by keyword, and read brief summaries before visiting the original source for full articles.
 
 The goal of this project is to provide a simple, user-friendly interface for accessing news from multiple sources in one place.
 
@@ -48,7 +31,7 @@ The goal of this project is to provide a simple, user-friendly interface for acc
 - **API Name:** NewsAPI.org
 - **Endpoints:**
   - `GET /top-headlines` – Fetches top news headlines by country or category
-  - `GET /everything` – Searches for news articles by keyword
+  - `GET /categoryname` – Searches for news articles by keyword
 - **Requirements:** Free API key (with limited daily requests)
 
 ### Data Displayed
@@ -70,16 +53,54 @@ The goal of this project is to provide a simple, user-friendly interface for acc
 
 
 ## 📂 Project Structure
-src/
-├─ components/
-│ ├─ ArticleCard.jsx
-│ ├─ Header.jsx
-│ └─ Footer.jsx
-├─ pages/
-│ └─ News.jsx
-├─ App.jsx
-└─ main.jsx
-
+.
+├── api
+│   └── news.js
+├── dist
+│   ├── assets
+│   │   ├── index-DPFfH_gc.css
+│   │   └── index-je7v9Xmn.js
+│   ├── index.html
+│   └── vite.svg
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── project_tree.txt
+├── public
+│   └── vite.svg
+├── README.md
+├── src
+│   ├── API.jsx
+│   ├── App.css
+│   ├── App.jsx
+│   ├── assets
+│   ├── components
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── Headlines.jsx
+│   │   ├── Layout.jsx
+│   │   ├── NewsCard.jsx
+│   │   ├── NewsGrid.jsx
+│   │   ├── NewsSearch.jsx
+│   │   └── ScrollToTop.jsx
+│   ├── contexts
+│   │   └── LoadingContext.jsx
+│   ├── hooks
+│   │   └── useDebounce.js
+│   ├── index.css
+│   ├── main.jsx
+│   └── pages
+│       ├── AboutUs.jsx
+│       ├── ArticleDetails.jsx
+│       ├── CategoryPages.jsx
+│       ├── Contact.jsx
+│       ├── Home.jsx
+│       ├── PrivacyPage.jsx
+│       └── TermsOfService.jsx
+├── taildwind.config.js
+├── vercel.json
+└── vite.config.js
 
 ---
 
@@ -87,7 +108,7 @@ src/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/news-reader-app.git
+   git clone https://github.com/acacore/news-reader-app.git
 
 
 Navigate to the project directory:
@@ -124,26 +145,21 @@ Week	Tasks
 3	Implement search functionality and loading/error states
 4	Add advanced features and improve responsiveness
 5	Testing, final styling, deployment, and documentation
-🌍 Deployment
+## 🚀 Deployment
 
-The application will be deployed using Vercel or Netlify.
-A live demo link will be added once deployment is completed.
+The application is deployed on a production server and is publicly accessible.
+
+**Live Demo**: [https://news.acacore.com](https://news.acacore.com)
+
+(Deployed using a modern hosting platform such as Vercel, Netlify, or equivalent — automatic CI/CD pipelines are recommended for future updates.)
 
 👤 Author
 
-Acacore
-
-📄 License
-
-This project is for educational purposes.
-
+Author
+Edoh Mensah Akpedzene
+Institution: ALX
+Program: ALX Frontend
+Nexus Poroject Cohort 8 (2025)
 
 ---
 
-### ✅ Next steps (optional)
-I can:
-- Customize this README with your **actual GitHub repo link**
-- Add a **Live Demo section** once you deploy
-- Simplify it if ALX requires a **shorter README**
-
-Just tell me what you want to adjust 👍
